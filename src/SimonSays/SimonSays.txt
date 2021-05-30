@@ -1,0 +1,31 @@
+// void setup()
+// {
+//   pinMode(ledPin, OUTPUT);
+//   // initialize the pushbutton pin as an input:
+//   pinMode(buttonPin, INPUT_PULLUP);
+//   Serial.begin(9600);
+// }
+
+// void loop()
+// {
+//   buttonState = digitalRead(buttonPin);
+//   if(buttonState == HIGH) {
+//   } else {
+//   }
+//   if (countDown <= 0)
+//   {
+//     if (buttonState == LOW)
+//     {
+//       digitalWrite(ledPin, LOW);
+//       countDown = 3;
+//     } else
+//     {
+//       digitalWrite(ledPin, HIGH);
+//     }
+//   }
+//   else
+//   {
+//     countDown -= 1000 / delayTime;
+//     delay(delayTime);
+//   }
+// }
