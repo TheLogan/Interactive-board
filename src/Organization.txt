@@ -1,0 +1,15 @@
+// #include "Arduino.h"
+// #include <LcdHandler.cpp>
+// Do LCD/RGB stuff with buttons
+// Change names on the LCD
+// Simplified simon says (When button lights, click it)
+// Flip switches for buttons
+
+
+void setup(){
+  // setupLcd();
+}
+
+void loop(){
+  // loopLcd();
+}
