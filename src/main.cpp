@@ -3,6 +3,8 @@
 #include <Adafruit_PWMServoDriver.h>
 #include <SimonSays/SimonSays.h>
 #include <LightedButtons/LightedButtons.h>
+#include <Vibrator/Vibrator.h>
+#include <Matrix/Matrix.h>
 
 Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver();
 
@@ -19,12 +21,16 @@ void setup()
 
   setupSimonSays();
   setupLightedButtons();
+  setupVibrator();
+  setupMatrix();
   delay(10);
 }
 
 void loop()
 {
-  loopSimonSays(pwm, delayTimeMs);
-  loopLightedButtons(pwm, delayTimeMs);
-  delay(100);
+  // loopSimonSays(pwm, delayTimeMs);
+  // loopLightedButtons(pwm, delayTimeMs);
+  // loopVibrator(pwm, delayTimeMs);
+  loopMatrix();
+  // delay(100);
 }
