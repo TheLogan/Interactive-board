@@ -37,42 +37,19 @@ void loopSimonSays(Adafruit_PWMServoDriver pwm, int delayTimeMs)
     buttons[i].btnState = digitalRead(buttons[i].buttonPin);
     if (buttons[i].btnState == HIGH)
     {
-      pwm.setPWM(buttons[i].ledAddress, 0, 900);
-    }
-    else
-    {
       if (buttons[i].timeCountdown <= 0)
       {
-        pwm.setPWM(buttons[i].ledAddress, 0, 0);
+        pwm.setPWM(buttons[i].ledAddress, 0, 900);
       }
       else
       {
         buttons[i].timeCountdown -= delayTimeMs;
       }
     }
+    else
+    {
+      pwm.setPWM(buttons[i].ledAddress, 0, 0);
+      buttons[0].timeCountdown = random(2000, 6000);
+    }
   }
-
-  // if (buttonState == HIGH)
-  // {
-
-  // }
-  // else
-  // {
-  // }
-  // if (countDown <= 0)
-  // {
-  //   if (buttonState == LOW)
-  //   {
-  //     digitalWrite(ledPin, LOW);
-  //     countDown = 3;
-  //   }
-  //   else
-  //   {
-  //     digitalWrite(ledPin, HIGH);
-  //   }
-  // }
-  // else
-  // {
-  //   countDown -= 1000 / delayTime;
-  // }
 }

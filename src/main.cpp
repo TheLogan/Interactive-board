@@ -1,7 +1,8 @@
 #include <Arduino.h>
-#include <SimonSays/SimonSays.h>
 #include <Wire.h>
 #include <Adafruit_PWMServoDriver.h>
+#include <SimonSays/SimonSays.h>
+#include <LightedButtons/LightedButtons.h>
 
 Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver();
 
@@ -17,12 +18,13 @@ void setup()
   pwm.setPWMFreq(SERVO_FREQ); // Analog servos run at ~50 Hz updates
 
   setupSimonSays();
-
+  setupLightedButtons();
   delay(10);
 }
 
 void loop()
 {
   loopSimonSays(pwm, delayTimeMs);
+  loopLightedButtons(pwm, delayTimeMs);
   delay(100);
 }
