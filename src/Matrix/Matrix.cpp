@@ -15,11 +15,15 @@ bool isReady = true;
 
 MaxMatrix m(DIN, CS, CLK, maxInUse);
 
+byte **currentAnimation;
+int currentTimer;
+int currentFrame;
+
 void setupMatrix()
 {
   m.init();
   m.setIntensity(0);
-  delay(100);
+  currentTimer = millis();
 }
 
 void DrawFrame(byte *frame)
@@ -30,23 +34,34 @@ void DrawFrame(byte *frame)
   }
 }
 
-void DrawAnimation(byte **animation)
+void drawNextFrame(byte **animation)
 {
   for (int i = 0; i < 6; i++)
   {
     DrawFrame(animation[i]);
-    delay(300);
   }
-  isReady = true;
 }
 
-void loopMatrix()
+void loopMatrix(bool shouldRender)
 {
-  if (isReady == true)
+  if (isReady == true && shouldRender)
   {
+    Serial.println("is ready");
     isReady = false;
-    // DrawFrame(icon_smiley);
-    
-    DrawAnimation(heartAnim);
+    currentAnimation = heartAnim;
+    currentFrame = 0;
+    currentTimer = millis() - 400;
+  }
+  if (currentTimer <= millis())
+  {
+    currentTimer = millis() + 300;
+    currentFrame++;
+    if (currentFrame < 7)
+    {
+      DrawFrame(currentAnimation[currentFrame]);
+    } else {
+      isReady = true;
+      m.clear();
+    }
   }
 }
