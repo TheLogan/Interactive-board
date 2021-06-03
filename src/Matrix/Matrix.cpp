@@ -15,43 +15,38 @@ bool isReady = true;
 
 MaxMatrix m(DIN, CS, CLK, maxInUse);
 
-
 void setupMatrix()
 {
-    m.init();
-    m.setIntensity(3);
-    delay(100);
+  m.init();
+  m.setIntensity(0);
+  delay(100);
 }
 
-void DrawCounter()
+void DrawFrame(byte *frame)
 {
-    for (int i = 0; i < 8; i++)
-    {
-        m.setColumn(i, smiley[i]);
-    }
-    // delay(1000);
-    // for (int i = 0; i < 8; i++)
-    // {
-    //     m.setColumn(i, three[i]);
-    // }
-    // delay(1000);
-    // for (int i = 0; i < 8; i++)
-    // {
-    //     m.setColumn(i, two[i]);
-    // }
-    // delay(1000);
-    // for (int i = 0; i < 8; i++)
-    // {
-    //     m.setColumn(i, one[i]);
-    // }
-    delay(1000);
-    isReady = true;
+  for (int i = 0; i < 8; i++)
+  {
+    m.setColumn(i, frame[i]);
+  }
 }
+
+void DrawAnimation(byte **animation)
+{
+  for (int i = 0; i < 6; i++)
+  {
+    DrawFrame(animation[i]);
+    delay(300);
+  }
+  isReady = true;
+}
+
 void loopMatrix()
 {
-    if (isReady == true)
-    {
-        isReady = false;
-        DrawCounter();
-    }
+  if (isReady == true)
+  {
+    isReady = false;
+    // DrawFrame(icon_smiley);
+    
+    DrawAnimation(heartAnim);
+  }
 }
