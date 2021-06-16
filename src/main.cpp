@@ -10,7 +10,14 @@
 Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver();
 
 #define SERVO_FREQ 50 // Analog servos run at ~50 Hz updates
-int delayTimeMs = 100;
+int delayTimeMs = 10;
+bool renderSuccess = false;
+
+void Success()
+{
+  Serial.println("Success");
+  renderSuccess = true;
+}
 
 void setup()
 {
@@ -21,13 +28,16 @@ void setup()
   // pwm.setPWMFreq(SERVO_FREQ); // Analog servos run at ~50 Hz updates
 
   ultraSetup();
-
-  setupSimonSays();
+  pwm.begin();
+  pwm.setOscillatorFrequency(27000000);
+  pwm.setPWMFreq(SERVO_FREQ); // Analog servos run at ~50 Hz updates
+  setupSimonSays(Success);
   // setupLightedButtons();
   // setupVibrator();
   setupMatrix();
   delay(10);
 }
+
 
 void loop()
 {
@@ -37,4 +47,17 @@ void loop()
   // loopVibrator(pwm, delayTimeMs);
   // loopMatrix();
   // delay(100);
+  loopSimonSays(pwm, delayTimeMs);
+  // loopLightedButtons(pwm, delayTimeMs);
+  // loopVibrator(pwm, delayTimeMs);
+  if (renderSuccess)
+  {
+    loopMatrix(true);
+    renderSuccess = false;
+  }
+  else
+  {
+    loopMatrix(false);
+  }
+  delay(delayTimeMs);
 }

@@ -1,4 +1,4 @@
 #include <Arduino.h>
 
 void setupMatrix();
-void loopMatrix();
+void loopMatrix(bool shouldRender);
