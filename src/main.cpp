@@ -5,6 +5,7 @@
 #include <LightedButtons/LightedButtons.h>
 #include <Vibrator/Vibrator.h>
 #include <Matrix/Matrix.h>
+#include <UltraSonicDistance/UltraSonicDistance.h>
 
 Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver();
 
@@ -15,22 +16,25 @@ void setup()
 {
   Serial.begin(9600);
 
-  pwm.begin();
-  pwm.setOscillatorFrequency(27000000);
-  pwm.setPWMFreq(SERVO_FREQ); // Analog servos run at ~50 Hz updates
+  // pwm.begin();
+  // pwm.setOscillatorFrequency(27000000);
+  // pwm.setPWMFreq(SERVO_FREQ); // Analog servos run at ~50 Hz updates
+
+  ultraSetup();
 
   setupSimonSays();
-  setupLightedButtons();
-  setupVibrator();
+  // setupLightedButtons();
+  // setupVibrator();
   setupMatrix();
   delay(10);
 }
 
 void loop()
 {
+  ultraLoop();
   // loopSimonSays(pwm, delayTimeMs);
   // loopLightedButtons(pwm, delayTimeMs);
   // loopVibrator(pwm, delayTimeMs);
-  loopMatrix();
+  // loopMatrix();
   // delay(100);
 }

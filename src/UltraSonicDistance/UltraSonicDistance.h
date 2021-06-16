@@ -1,0 +1,2 @@
+void ultraSetup();
+void ultraLoop();
