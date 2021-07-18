@@ -1,2 +1,2 @@
-void ultraSetup();
+void ultraSetup(int globalDelay);
 void ultraLoop();

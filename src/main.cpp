@@ -15,22 +15,17 @@ bool renderSuccess = false;
 
 void Success()
 {
-  Serial.println("Success");
+  // Serial.println("Success");
   renderSuccess = true;
 }
 
 void setup()
 {
   Serial.begin(9600);
-
-  // pwm.begin();
-  // pwm.setOscillatorFrequency(27000000);
-  // pwm.setPWMFreq(SERVO_FREQ); // Analog servos run at ~50 Hz updates
-
-  ultraSetup();
   pwm.begin();
   pwm.setOscillatorFrequency(27000000);
   pwm.setPWMFreq(SERVO_FREQ); // Analog servos run at ~50 Hz updates
+  ultraSetup(delayTimeMs);
   setupSimonSays(Success);
   // setupLightedButtons();
   // setupVibrator();
@@ -45,19 +40,14 @@ void loop()
   // loopSimonSays(pwm, delayTimeMs);
   // loopLightedButtons(pwm, delayTimeMs);
   // loopVibrator(pwm, delayTimeMs);
-  // loopMatrix();
-  // delay(100);
-  loopSimonSays(pwm, delayTimeMs);
-  // loopLightedButtons(pwm, delayTimeMs);
-  // loopVibrator(pwm, delayTimeMs);
   if (renderSuccess)
   {
-    loopMatrix(true);
+    // loopMatrix(true);
     renderSuccess = false;
   }
   else
   {
-    loopMatrix(false);
+    // loopMatrix(false);
   }
   delay(delayTimeMs);
 }

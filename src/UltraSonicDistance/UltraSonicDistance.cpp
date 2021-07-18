@@ -2,24 +2,60 @@
 #include <time.h>
 #include <iostream>
 #include <vector>
+#include <string>
 
 const int buzzer = 9;
 const int trigPin = 11;
 const int echoPin = 10;
 long duration;
-int distanceCm;
 
-std::vector<int> myStack;
-void ultraSetup()
+std::vector<int> myStack = {180};
+
+int currentTone = 0;
+int frames[6] = {10, 12, 1, 1, 1, 1};
+
+int getDistance();
+int getMedianPoint(int distanceInCm);
+void PlayNextFrame();
+int fixedDelay = 0;
+
+void ultraSetup(int globalDelay)
 {
+  fixedDelay = globalDelay;
   pinMode(buzzer, OUTPUT); // Set buzzer - pin 9 as an output
   pinMode(trigPin, OUTPUT);
   pinMode(echoPin, INPUT);
 
-  myStack.insert(180, 0);
+  myStack.insert(0, 180);
 }
 
 void ultraLoop()
+{
+  if (currentTone > 0)
+  {
+    PlayNextFrame();
+  }
+  else
+  {
+    noTone(buzzer);
+
+    int distanceInCm = getDistance();
+    int median = getMedianPoint(distanceInCm);
+    
+    std::string myStr = "";
+    printf("player %d", median);
+
+    Serial.println("median: " + std::to_string(median) + ", ends here");
+
+    if (median > 30)
+    {
+      currentTone = 1; //This will start the sound from the next frame onward
+    }
+    Serial.println(distanceInCm);
+  }
+}
+
+int getDistance()
 {
   digitalWrite(trigPin, LOW);
   delayMicroseconds(2);
@@ -28,22 +64,19 @@ void ultraLoop()
   digitalWrite(trigPin, LOW);
 
   duration = pulseIn(echoPin, HIGH);
-  distanceCm = duration * 0.034 / 2;
+  return duration * 0.034 / 2;
+}
 
-  // distanceBuffer.
-
-  // tone(buzzer, 1000); // Send 1KHz sound signal...
-  // delay(1000);        // ...for 1 sec
-  // noTone(buzzer);     // Stop sound...
-  // delay(1000);        // ...for 1sec
-
-  // tone(buzzer, distanceCm * 10);
+int getMedianPoint(int distanceInCm)
+{ //FIXME: this doesn't work yet
+  Serial.println("stackSize: " + myStack.size());
   if (myStack.size() > 10)
   {
     myStack.pop_back();
   }
-  if(distanceCm < 200) {
-    myStack.insert(0, distanceCm);
+  if (distanceInCm < 200)
+  {
+    myStack.insert(0, distanceInCm);
   }
 
   int total = 0;
@@ -51,24 +84,13 @@ void ultraLoop()
   {
     total = +myStack[i];
   }
+  return total / myStack.size();
+}
 
-  int median = total/myStack.size();
-
-  if (median < 30)
-  {
-    // tone(buzzer, 100);
-    for (uint8_t i = 200; i > 180; i--)
-    {
-      tone(buzzer, i);
-      delay(0.1);
-    }
-  }
-  else
-  {
-    noTone(buzzer);
-  }
-
-  Serial.println(distanceCm);
+void PlayNextFrame()
+{
+  tone(buzzer, frames[currentTone], fixedDelay);
+  currentTone++;
 }
 
 // void chirp()
